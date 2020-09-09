@@ -8,7 +8,7 @@ The following examples show how to use Redis Connector to set a key value on the
 
 The following screenshot shows the flow for this example:
 
-image::redis-set-raw-flow.png[]
+image::redis-set-raw-flow.png[Mule flow with an HTTP listener, Redis Set operation, and Set Payload transformer]
 
 To use Anypoint Studio to set a key value on the Redis server:
 

@@ -20,6 +20,15 @@ To use this connector, you must be familiar with:
 
 Before creating an app, you must have access to the Redis target resource.
 
+== Common Use Cases for the Connector
+
+Some common use cases for Redis Connector include:
+
+* Setting a key value on the Redis server
+* Using Redis Connector as a custom object store
+
+For examples, see the Redis Connector xref:redis-connector-examples.adoc[Examples].
+
 == Audience
 
 * New user
@@ -35,6 +44,18 @@ Read the following:
 
 ** xref:redis-connector-xml-maven.adoc[XML and Maven Support]
 ** xref:redis-connector-examples.adoc[Examples] topics
+
+== Authentication Types
+
+Redis Connector supports the following connection types: 
+
+* Clustered
+Provide a comma-separated list of hosts to connect to a Redis cluster
+* Nonclustered +
+Provide the host and port to connect to a single Redis server
+* Sentinel +
+Provide the sentinel addresses that monitor the master server to which the connector will connect
+
 
 == Next Step
 
