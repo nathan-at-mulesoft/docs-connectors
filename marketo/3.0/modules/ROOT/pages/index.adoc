@@ -5,7 +5,7 @@ Support Category: https://www.mulesoft.com/legal/versioning-back-support-policy#
 
 Adobe Marketo Connector v3.0
 
-Anypoint Connector for Adobe Marketo (Marketo Connector) is a closed-source connector that provides a connection between the Mule runtime engine (Mule) and Adobe Marketo REST APIs. This connector implements all supported v1.0 Adobe Marketo API endpoints and provides Mule 4 DataWeave functionality.
+Anypoint Connector for Adobe Marketo (Marketo Connector) facilitates access to the Adobe Marketo REST APIs. This connector implements all supported v1.0 Adobe Marketo API endpoints and provides Mule 4 DataWeave functionality.
 
 Release Notes: xref:release-notes::connector/marketo-connector-release-notes-mule-4.adoc[Marketo Connector Release Notes] +
 Exchange: https://www.mulesoft.com/exchange/com.mulesoft.connectors/mule-marketo-connector/[Marketo Connector]
@@ -36,9 +36,9 @@ Mule converts RELEASE to the latest version. To set a specific version, view htt
 
 == Flow Designer Configuration
 
-. In Flow Designer, select a trigger such as the HTTP Listener or Scheduler. Adobe Marketo does not provide a trigger operation in Flow Designer.
+. In Flow Designer, select a trigger such as the HTTP Listener or Scheduler. (Adobe Marketo does not provide a trigger operation.)
 . Select the plus sign to add a component.
-. Select the connector as a component.
+. Select the Marketo connector.
 . Configure these fields:
 
 image::marketo-dc-rest-config.png[]
