@@ -1,0 +1,8 @@
+.xref:index.adoc[Google Sheets Connector]
+* xref:index.adoc[About Google Sheets Connector]
+* xref:google-sheets-connector-design-center.adoc[Use Flow Designer to Configure Google Sheets Connector]
+* xref:google-sheets-connector-studio.adoc[Use Studio to Configure Google Sheets Connector]
+* xref:google-sheets-connector-xml-maven.adoc[Google Sheets Connector XML Maven Configuration]
+* xref:google-sheets-connector-examples.adoc[Google Sheets Connnector Examples]
+* xref:google-sheets-reference.adoc[Google Sheets Connector Reference]
+* xref:google-sheets-connector-troubleshoot.adoc[Troubleshoot Google Sheets Connector]

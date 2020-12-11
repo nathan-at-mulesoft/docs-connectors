@@ -1,0 +1,5 @@
+= Troubleshoot Google Sheets Connector 1.0.0 - Mule 4
+
+== See Also
+
+https://help.mulesoft.com[MuleSoft Help Center]

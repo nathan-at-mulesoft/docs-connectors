@@ -1,0 +1,913 @@
+= Google Sheets Connector 1.0.0 Reference - Mule 4
+:page-aliases: connectors::google/google-sheets-reference.adoc
+
+Anypoint Connector for Google Sheets (Google Sheets Connector) provides access to standard Google Sheets and Google Drive operations.
+
+== Configurations
+---
+[[Config]]
+=== Config
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+|Name | String | The name for this configuration. Connectors reference the configuration with this name. | | *x*{nbsp}
+| Connection a| <<Config_Oauth20, Oauth 2 0 Connection Provider>>
+| The connection types that can be provided to this configuration. | | *x*{nbsp}
+| Response Timeout a| Number |  The timeout for request to the remote service. |  1 | {nbsp}
+| Response Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  A time unit which qualifies the Response Timeout} |  MINUTES | {nbsp}
+| Streaming Type a| Enumeration, one of:
+
+** AUTO
+** ALWAYS
+** NEVER |  Defines if the request should be sent using streaming. Setting the value to AUTO will automatically define the best strategy based on the request content. |  AUTO | {nbsp}
+| Name a| String |  The identifier of this element used to reference it in other components |  | *x*{nbsp}
+| Expiration Policy a| <<ExpirationPolicy>> |  Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit. |  | {nbsp}
+|===
+
+=== Connection Types
+
+Connection authentication types to provide to this configuration.
+
+[[Config_Oauth20]]
+===== Oauth 2 0 Connection Provider
+
+Uses OAuth dance for authenticating the connection.
+
+====== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Default Headers a| Array of <<DefaultHeader>> |  |  | {nbsp}
+| Query Parameters a| Array of <<DefaultQueryParam>> |  |  | {nbsp}
+| Connection Timeout a| Number |  The number of units that a connection can remain idle before it is closed. The value of this attribute is used only when persistent connections are enabled. |  30 | {nbsp}
+| Connection Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  A time unit which qualifies the Connection Timeout |  SECONDS | {nbsp}
+| Use Persistent Connections a| Boolean |  If false, each connection will be closed after the first request is completed. |  true | {nbsp}
+| Max Connections a| Number |  Maximum number of outbound connections to keep open concurrently. By default, the number of connections is unlimited. |  -1 | {nbsp}
+| Connection Idle Timeout a| Number |  Amount of time that a connection can remain idle before it is closed. The value of this attribute is used only when persistent connections are enabled. |  30 | {nbsp}
+| Connection Idle Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  A time unit which qualifies the connection Idle Timeout |  SECONDS | {nbsp}
+| Proxy Config a| <<Proxy>> |  Reusable configuration element for outbound connections through a proxy |  | {nbsp}
+| Stream Response a| Boolean |  Whether or not to stream received responses, meaning processing continues as soon as all headers are parsed and the body is streamed as it arrives. When enabled, the response must eventually be read since, depending on the configured buffer size, it might not fit into memory and processing stops until space is available. |  false | {nbsp}
+| Response Buffer Size a| Number |  The space in bytes for the buffer where the HTTP response will be stored. |  -1 | {nbsp}
+| Protocol a| Enumeration, one of:
+
+** HTTP
+** HTTPS |  Protocol to use for communication. Valid values are HTTP and HTTPS |  HTTP | {nbsp}
+| TLS Configuration a| <<Tls>> | Defines a configuration for TLS, which can be used from both the client and server sides to secure communication for the Mule app. When using the HTTPS protocol, the HTTP communication is secured using TLS or SSL. If HTTPS is configured as the protocol then the user needs to configure at least the keystore in the `tls:context` child element of the `listener-config`. |  | {nbsp}
+| Reconnection a| <<Reconnection>> |  When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy |  | {nbsp}
+| Consumer Key a| String |  The OAuth consumerKey as registered with the service provider |  | *x*{nbsp}
+| Consumer Secret a| String |  The OAuth consumerSecret as registered with the service provider |  | *x*{nbsp}
+| Authorization Url a| String |  The service provider's authorization endpoint URL |  https://accounts.google.com/o/oauth2/auth | {nbsp}
+| Access Token Url a| String |  The service provider's accessToken endpoint URL |  https://oauth2.googleapis.com/token | {nbsp}
+| Scopes a| String |  The OAuth scopes to be requested during the dance. If not provided, it will default to those in the annotation |  https://www.googleapis.com/auth/spreadsheets.readonly https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive | {nbsp}
+| Resource Owner Id a| String |  The resourceOwnerId which each component should use if it doesn't reference otherwise. |  | {nbsp}
+| Before a| String |  The name of a flow to be executed right before starting the OAuth dance |  | {nbsp}
+| After a| String |  The name of a flow to be executed right after an accessToken has been received |  | {nbsp}
+| Listener Config a| String |  A reference to a <http:listener-config /> to be used in order to create the listener that will catch the access token callback endpoint. |  | *x*{nbsp}
+| Callback Path a| String |  The path of the access token callback endpoint |  | *x*{nbsp}
+| Authorize Path a| String |  The path of the local http endpoint which triggers the OAuth dance |  | *x*{nbsp}
+| External Callback Url a| String |  If the callback endpoint is behind a proxy or should be accessed through a non direct URL, use this parameter to tell the OAuth provider the URL it should use to access the callback |  | {nbsp}
+| Object Store a| String |  A reference to the object store that should be used to store each resource owner id's data. If not specified, runtime will automatically provision the default one. |  | {nbsp}
+|===
+
+==== Associated Operations
+* <<CreateSpreadsheetsValuesRangeappendBySpreadsheetId>> {nbsp}
+* <<GetFiles>> {nbsp}
+* <<GetSpreadsheetsSpreadsheetIdfieldssheetsproperties>> {nbsp}
+* <<GetSpreadsheetsValuesBySpreadsheetIdRange>> {nbsp}
+* <<Unauthorize>> {nbsp}
+* <<UpdateSpreadsheetsValuesBySpreadsheetIdRange>> {nbsp}
+
+==== Associated Sources
+* <<NewRowListener>> {nbsp}
+* <<NewOrUpdatedRowListener>> {nbsp}
+* <<NewSpreadsheetListener>> {nbsp}
+
+
+== Operations
+
+[[CreateSpreadsheetsValuesRangeappendBySpreadsheetId]]
+=== Append Spreadsheets Values
+`<google-sheets:create-spreadsheets-values-rangeappend-by-spreadsheet-id>`
+
+
+Append Spreadsheets Values This operation makes an HTTP POST request to the /spreadsheets/{spreadsheetId}/values/{range}:append endpoint
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Spreadsheet Id a| String |  Spreadsheet Id |  | *x*{nbsp}
+| range a| String |  range |  | *x*{nbsp}
+| Value Input Option a| Enumeration, one of:
+
+** USER_ENTERED
+** INPUT_VALUE_OPTION_UNSPECIFIED
+** RAW |  Value Input Option |  USER_ENTERED | {nbsp}
+| Content Type a| String |  Content Type |  application/json | {nbsp}
+| Spreadsheets Values Rangeappend Content a| Any |  the content to use |  #[payload] | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Custom Query Parameters a| Object |  |  | {nbsp}
+| Custom Headers a| Object |  |  | {nbsp}
+| Response Timeout a| Number |  The timeout for request to the remote service. |  | {nbsp}
+| Response Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  A time unit which qualifies the Response Timeout} |  | {nbsp}
+| Streaming Type a| Enumeration, one of:
+
+** AUTO
+** ALWAYS
+** NEVER |  Defines if the request should be sent using streaming. Setting the value to AUTO will automatically define the best strategy based on the request content. |  | {nbsp}
+| Target Variable a| String |  The name of a variable on which the operation's output will be placed |  | {nbsp}
+| Target Value a| String |  An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable |  #[payload] | {nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+
+[%autowidth.spread]
+|===
+| *Type* a| Any
+| *Attributes Type* a| <<HttpResponseAttributes>>
+|===
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+==== Throws
+
+* GOOGLE-SHEETS:BAD_REQUEST {nbsp}
+* GOOGLE-SHEETS:CLIENT_ERROR {nbsp}
+* GOOGLE-SHEETS:CONNECTIVITY {nbsp}
+* GOOGLE-SHEETS:INTERNAL_SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:NOT_ACCEPTABLE {nbsp}
+* GOOGLE-SHEETS:NOT_FOUND {nbsp}
+* GOOGLE-SHEETS:RETRY_EXHAUSTED {nbsp}
+* GOOGLE-SHEETS:SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:SERVICE_UNAVAILABLE {nbsp}
+* GOOGLE-SHEETS:TIMEOUT {nbsp}
+* GOOGLE-SHEETS:TOO_MANY_REQUESTS {nbsp}
+* GOOGLE-SHEETS:UNAUTHORIZED {nbsp}
+* GOOGLE-SHEETS:UNSUPPORTED_MEDIA_TYPE {nbsp}
+
+
+[[GetFiles]]
+=== List Drive Files
+`<google-sheets:get-files>`
+
+
+The endpoint lists user's drive files. This operation makes an HTTP GET request to the /files endpoint
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Page Size a| String |  Page Size |  100 | {nbsp}
+| Query a| String |  Query |  | {nbsp}
+| Fields a| String |  Fields |  | {nbsp}
+| Output Mime Type a| String |  The mime type of the payload that this operation outputs. |  | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryIterable>>
+* <<RepeatableFileStoreIterable>>
+* non-repeatable-iterable |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Custom Query Parameters a| Object |  |  #[null] | {nbsp}
+| Custom Headers a| Object |  |  | {nbsp}
+| Response Timeout a| Number |  The timeout for request to the remote service. |  | {nbsp}
+| Response Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  A time unit which qualifies the Response Timeout} |  | {nbsp}
+| Streaming Type a| Enumeration, one of:
+
+** AUTO
+** ALWAYS
+** NEVER |  Defines if the request should be sent using streaming. Setting the value to AUTO will automatically define the best strategy based on the request content. |  | {nbsp}
+| Target Variable a| String |  The name of a variable on which the operation's output will be placed |  | {nbsp}
+| Target Value a| String |  An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable |  #[payload] | {nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+
+[%autowidth.spread]
+|===
+| *Type* a| Array of Any
+|===
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+==== Throws
+
+* GOOGLE-SHEETS:BAD_REQUEST {nbsp}
+* GOOGLE-SHEETS:CLIENT_ERROR {nbsp}
+* GOOGLE-SHEETS:CONNECTIVITY {nbsp}
+* GOOGLE-SHEETS:INTERNAL_SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:NOT_ACCEPTABLE {nbsp}
+* GOOGLE-SHEETS:NOT_FOUND {nbsp}
+* GOOGLE-SHEETS:SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:SERVICE_UNAVAILABLE {nbsp}
+* GOOGLE-SHEETS:TIMEOUT {nbsp}
+* GOOGLE-SHEETS:TOO_MANY_REQUESTS {nbsp}
+* GOOGLE-SHEETS:UNAUTHORIZED {nbsp}
+* GOOGLE-SHEETS:UNSUPPORTED_MEDIA_TYPE {nbsp}
+
+
+[[GetSpreadsheetsSpreadsheetIdfieldssheetsproperties]]
+=== Get Spreadsheet Properties
+`<google-sheets:get-spreadsheets-spreadsheet-idfieldssheetsproperties>`
+
+
+Get Spreadsheet Properties This operation makes an HTTP GET request to the /spreadsheets/{spreadsheetId}?&amp;fields=sheets.properties endpoint
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Spreadsheet Id a| String |  Spreadsheet Id |  | *x*{nbsp}
+| Content Type a| String |  Content Type |  application/json | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Custom Query Parameters a| Object |  |  #[null] | {nbsp}
+| Custom Headers a| Object |  |  | {nbsp}
+| Response Timeout a| Number |  The timeout for request to the remote service. |  | {nbsp}
+| Response Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  A time unit which qualifies the Response Timeout} |  | {nbsp}
+| Streaming Type a| Enumeration, one of:
+
+** AUTO
+** ALWAYS
+** NEVER |  Defines if the request should be sent using streaming. Setting the value to AUTO will automatically define the best strategy based on the request content. |  | {nbsp}
+| Target Variable a| String |  The name of a variable on which the operation's output will be placed |  | {nbsp}
+| Target Value a| String |  An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable |  #[payload] | {nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+
+[%autowidth.spread]
+|===
+| *Type* a| Any
+| *Attributes Type* a| <<HttpResponseAttributes>>
+|===
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+=== Throws
+
+* GOOGLE-SHEETS:BAD_REQUEST {nbsp}
+* GOOGLE-SHEETS:CLIENT_ERROR {nbsp}
+* GOOGLE-SHEETS:CONNECTIVITY {nbsp}
+* GOOGLE-SHEETS:INTERNAL_SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:NOT_ACCEPTABLE {nbsp}
+* GOOGLE-SHEETS:NOT_FOUND {nbsp}
+* GOOGLE-SHEETS:RETRY_EXHAUSTED {nbsp}
+* GOOGLE-SHEETS:SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:SERVICE_UNAVAILABLE {nbsp}
+* GOOGLE-SHEETS:TIMEOUT {nbsp}
+* GOOGLE-SHEETS:TOO_MANY_REQUESTS {nbsp}
+* GOOGLE-SHEETS:UNAUTHORIZED {nbsp}
+* GOOGLE-SHEETS:UNSUPPORTED_MEDIA_TYPE {nbsp}
+
+
+[[GetSpreadsheetsValuesBySpreadsheetIdRange]]
+=== Get Spreadsheets Values
+`<google-sheets:get-spreadsheets-values-by-spreadsheet-id-range>`
+
+
+Get Spreadsheets Values This operation makes an HTTP GET request to the /spreadsheets/{spreadsheetId}/values/{range} endpoint
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Spreadsheet Id a| String |  Spreadsheet Id |  | *x*{nbsp}
+| range a| String |  range |  | *x*{nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Custom Query Parameters a| Object |  |  #[null] | {nbsp}
+| Custom Headers a| Object |  |  | {nbsp}
+| Response Timeout a| Number |  The timeout for request to the remote service. |  | {nbsp}
+| Response Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  A time unit which qualifies the Response Timeout} |  | {nbsp}
+| Streaming Type a| Enumeration, one of:
+
+** AUTO
+** ALWAYS
+** NEVER |  Defines if the request should be sent using streaming. Setting the value to AUTO will automatically define the best strategy based on the request content. |  | {nbsp}
+| Target Variable a| String |  The name of a variable on which the operation's output will be placed |  | {nbsp}
+| Target Value a| String |  An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable |  #[payload] | {nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+
+[%autowidth.spread]
+|===
+| *Type* a| Any
+| *Attributes Type* a| <<HttpResponseAttributes>>
+|===
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+==== Throws
+
+* GOOGLE-SHEETS:BAD_REQUEST {nbsp}
+* GOOGLE-SHEETS:CLIENT_ERROR {nbsp}
+* GOOGLE-SHEETS:CONNECTIVITY {nbsp}
+* GOOGLE-SHEETS:INTERNAL_SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:NOT_ACCEPTABLE {nbsp}
+* GOOGLE-SHEETS:NOT_FOUND {nbsp}
+* GOOGLE-SHEETS:RETRY_EXHAUSTED {nbsp}
+* GOOGLE-SHEETS:SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:SERVICE_UNAVAILABLE {nbsp}
+* GOOGLE-SHEETS:TIMEOUT {nbsp}
+* GOOGLE-SHEETS:TOO_MANY_REQUESTS {nbsp}
+* GOOGLE-SHEETS:UNAUTHORIZED {nbsp}
+* GOOGLE-SHEETS:UNSUPPORTED_MEDIA_TYPE {nbsp}
+
+
+[[Unauthorize]]
+=== Unauthorize
+`<google-sheets:unauthorize>`
+
+
+Deletes all the access token information of a given resource owner id so that it's impossible to execute any operation for that user without doing the authorization dance again
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Resource Owner Id a| String |  The id of the resource owner which access should be invalidated |  | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+|===
+
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+
+
+[[UpdateSpreadsheetsValuesBySpreadsheetIdRange]]
+== Update Spreadsheets Values
+`<google-sheets:update-spreadsheets-values-by-spreadsheet-id-range>`
+
+
+Update Spreadsheets Values This operation makes an HTTP PUT request to the /spreadsheets/{spreadsheetId}/values/{range} endpoint
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Spreadsheet Id a| String |  Spreadsheet Id |  | *x*{nbsp}
+| range a| String |  range |  | *x*{nbsp}
+| Value Input Option a| Enumeration, one of:
+
+** USER_ENTERED
+** INPUT_VALUE_OPTION_UNSPECIFIED
+** RAW |  Value Input Option |  USER_ENTERED | {nbsp}
+| Content Type a| String |  Content Type |  application/json | {nbsp}
+| Spreadsheets Values Rangeappend Content a| Any |  the content to use |  #[payload] | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Custom Query Parameters a| Object |  |  | {nbsp}
+| Custom Headers a| Object |  |  | {nbsp}
+| Response Timeout a| Number |  The timeout for request to the remote service. |  | {nbsp}
+| Response Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  A time unit which qualifies the Response Timeout} |  | {nbsp}
+| Streaming Type a| Enumeration, one of:
+
+** AUTO
+** ALWAYS
+** NEVER |  Defines if the request should be sent using streaming. Setting the value to AUTO will automatically define the best strategy based on the request content. |  | {nbsp}
+| Target Variable a| String |  The name of a variable on which the operation's output will be placed |  | {nbsp}
+| Target Value a| String |  An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable |  #[payload] | {nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+
+[%autowidth.spread]
+|===
+| *Type* a| Any
+| *Attributes Type* a| <<HttpResponseAttributes>>
+|===
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+==== Throws
+
+* GOOGLE-SHEETS:BAD_REQUEST {nbsp}
+* GOOGLE-SHEETS:CLIENT_ERROR {nbsp}
+* GOOGLE-SHEETS:CONNECTIVITY {nbsp}
+* GOOGLE-SHEETS:INTERNAL_SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:NOT_ACCEPTABLE {nbsp}
+* GOOGLE-SHEETS:NOT_FOUND {nbsp}
+* GOOGLE-SHEETS:RETRY_EXHAUSTED {nbsp}
+* GOOGLE-SHEETS:SERVER_ERROR {nbsp}
+* GOOGLE-SHEETS:SERVICE_UNAVAILABLE {nbsp}
+* GOOGLE-SHEETS:TIMEOUT {nbsp}
+* GOOGLE-SHEETS:TOO_MANY_REQUESTS {nbsp}
+* GOOGLE-SHEETS:UNAUTHORIZED {nbsp}
+* GOOGLE-SHEETS:UNSUPPORTED_MEDIA_TYPE {nbsp}
+
+
+[[SetExpressionLanguage]]
+=== Set Expression Language
+`<google-sheets:set-expression-language>`
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Expression Language a| ExpressionLanguage |  |  | *x*{nbsp}
+|===
+
+
+== Sources
+
+[[NewRowListener]]
+=== On New Row Listener
+`<google-sheets:new-row-listener>`
+
+Initiates a flow when a row in a specified spreadsheet and worksheet is added into.
+
+==== Parameters
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Connector configuration | String | Name of the configuration to use. | | x
+| Spreadsheet ID | String | ID of the spreadsheet the new row is added into. | | x
+| Warksheet Name | String | Name of the sheet the new row is added into. | | x
+| Scheduling Strategy a|
+
+* Fixed Frequency
+* Cron
+ |  Configures the scheduler that triggers the polling. |  | x
+| Redelivery Policy a| <<RedeliveryPolicy>> |  Defines a policy for processing the redelivery of the same message. |  |
+| Response Timeout a| Number | How long to wait for a response, based on the unit in the Response Timeout field. |  |
+| Response Timeout Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  Time unit for the Response Timeout field. |  |
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy for connectivity errors. |  |
+|===
+
+==== Output
+JSON Object with content of the newly added row.
+
+[[NewOrUpdatedRowListener]]
+=== On New or Updated Row Listener
+`<google-sheets:new-or-updated-row-listener>`
+
+Initiates a flow when a row in a specified spreadsheet and worksheet is added into.
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Response timeout a| Number | How long to wait for a response, based on the unit in the Response Timeout field. |  30 | {nbsp}
+| Response timeout time unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  |  SECONDS | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Scheduling Strategy a| scheduling-strategy |  Configures the scheduler that triggers the polling |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Redelivery Policy a| <<RedeliveryPolicy>> |  Defines a policy for processing the redelivery of the same message |  | {nbsp}
+| Spreadsheet ID a| String |  ID of the spreadsheet the new row is added into or updated in. |  | *x*{nbsp}
+| Worksheet Name a| String |  Name of the sheet the new row is added into or updated in. |  | *x*{nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+JSON Object with content of the newly added or updated row.
+[%autowidth.spread]
+|===
+| *Type* a| Any
+|===
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+
+[[NewSpreadsheetListener]]
+=== On New Spreadsheet Listener
+`<google-sheets:new-spreadsheet-listener>`
+
+Initiates a flow when a new spreadsheet is created.
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Response timeout a| Number |  |  30 | {nbsp}
+| Response timeout time unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  |  SECONDS | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Scheduling Strategy a| scheduling-strategy |  Configures the scheduler that triggers the polling |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Redelivery Policy a| <<RedeliveryPolicy>> |  Defines a policy for processing the redelivery of the same message |  | {nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+JSON Object containing attributes of the newly created spreadsheet.
+[%autowidth.spread]
+|===
+| *Type* a| Any
+|===
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+
+
+== Types
+[[DefaultHeader]]
+=== Default Header
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Key a| String |  |  | x
+| Value a| String |  |  | x
+|======================
+
+[[DefaultQueryParam]]
+=== Default Query Param
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Key a| String |  |  | x
+| Value a| String |  |  | x
+|======================
+
+[[Proxy]]
+=== Proxy
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Host a| String |  |  | x
+| Port a| Number |  |  | x
+| Username a| String |  |  |
+| Password a| String |  |  |
+| Non Proxy Hosts a| String |  |  |
+|======================
+
+[[Tls]]
+=== Tls
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Enabled Protocols a| String | A comma separated list of protocols enabled for this context. |  |
+| Enabled Cipher Suites a| String | A comma separated list of cipher suites enabled for this context. |  |
+| Trust Store a| <<TrustStore>> |  |  |
+| Key Store a| <<KeyStore>> |  |  |
+| Revocation Check a| * <<StandardRevocationCheck>>
+* <<CustomOcspResponder>>
+* <<CrlFile>> |  |  |
+|======================
+
+[[TrustStore]]
+=== Trust Store
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Path a| String | The location (which will be resolved relative to the current classpath and file system, if possible) of the trust store. |  |
+| Password a| String | The password used to protect the trust store. |  |
+| Type a| String | The type of store used. |  |
+| Algorithm a| String | The algorithm used by the trust store. |  |
+| Insecure a| Boolean | If true, no certificate validations will be performed, rendering connections vulnerable to attacks. Use at your own risk. |  |
+|======================
+
+[[KeyStore]]
+=== Key Store
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Path a| String | The location (which will be resolved relative to the current classpath and file system, if possible) of the key store. |  |
+| Type a| String | The type of store used. |  |
+| Alias a| String | When the key store contains many private keys, this attribute indicates the alias of the key that should be used. If not defined, the first key in the file will be used by default. |  |
+| Key Password a| String | The password used to protect the private key. |  |
+| Password a| String | The password used to protect the key store. |  |
+| Algorithm a| String | The algorithm used by the key store. |  |
+|======================
+
+[[StandardRevocationCheck]]
+=== Standard Revocation Check
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Only End Entities a| Boolean | Only verify the last element of the certificate chain. |  |
+| Prefer Crls a| Boolean | Try CRL instead of OCSP first. |  |
+| No Fallback a| Boolean | Do not use the secondary checking method (the one not selected before). |  |
+| Soft Fail a| Boolean | Avoid verification failure when the revocation server can not be reached or is busy. |  |
+|======================
+
+[[CustomOcspResponder]]
+=== Custom Ocsp Responder
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Url a| String | The URL of the OCSP responder. |  |
+| Cert Alias a| String | Alias of the signing certificate for the OCSP response (must be in the trust store), if present. |  |
+|======================
+
+[[CrlFile]]
+=== Crl File
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Path a| String | The path to the CRL file. |  |
+|======================
+
+[[Reconnection]]
+=== Reconnection
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Fails Deployment a| Boolean | When the application is deployed, a connectivity test is performed on all connectors. If set to true, deployment will fail if the test doesn't pass after exhausting the associated reconnection strategy |  |
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> | The reconnection strategy to use |  |
+|======================
+
+[[Reconnect]]
+=== Reconnect
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Frequency a| Number | How often (in ms) to reconnect |  |
+| Blocking a| Boolean | If false, the reconnection strategy will run in a separate, non-blocking thread |  |
+| Count a| Number | How many reconnection attempts to make |  |
+|======================
+
+[[ReconnectForever]]
+=== Reconnect Forever
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Frequency a| Number | How often (in ms) to reconnect |  |
+| Blocking a| Boolean | If false, the reconnection strategy will run in a separate, non-blocking thread |  |
+|======================
+
+[[ExpirationPolicy]]
+=== Expiration Policy
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Max Idle Time a| Number | A scalar time value for the maximum amount of time a dynamic configuration instance should be allowed to be idle before it's considered eligible for expiration |  |
+| Time Unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS | A time unit that qualifies the maxIdleTime attribute |  |
+|======================
+
+[[RepeatableInMemoryStream]]
+=== Repeatable In Memory Stream
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Initial Buffer Size a| Number | This is the amount of memory that will be allocated in order to consume the stream and provide random access to it. If the stream contains more data than can be fit into this buffer, then it will be expanded by according to the bufferSizeIncrement attribute, with an upper limit of maxInMemorySize. |  |
+| Buffer Size Increment a| Number | This is by how much will be buffer size by expanded if it exceeds its initial size. Setting a value of zero or lower will mean that the buffer should not expand, meaning that a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised when the buffer gets full. |  |
+| Max Buffer Size a| Number | This is the maximum amount of memory that will be used. If more than that is used then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised. A value lower or equal to zero means no limit. |  |
+| Buffer Unit a| Enumeration, one of:
+
+** BYTE
+** KB
+** MB
+** GB | The unit in which all these attributes are expressed |  |
+|======================
+
+[[RepeatableFileStoreStream]]
+=== Repeatable File Store Stream
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| In Memory Size a| Number | Defines the maximum memory that the stream should use to keep data in memory. If more than that is consumed then it will start to buffer the content on disk. |  |
+| Buffer Unit a| Enumeration, one of:
+
+** BYTE
+** KB
+** MB
+** GB | The unit in which maxInMemorySize is expressed |  |
+|======================
+
+[[RedeliveryPolicy]]
+=== Redelivery Policy
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Max Redelivery Count a| Number | The maximum number of times a message can be redelivered and processed unsuccessfully before triggering process-failed-message |  |
+| Message Digest Algorithm a| String | The secure hashing algorithm to use. If not set, the default is SHA-256. |  |
+| Message Identifier a| <<RedeliveryPolicyMessageIdentifier>> | Defines which strategy is used to identify the messages. |  |
+| Object Store a| ObjectStore | The object store where the redelivery counter for each message is going to be stored. |  |
+|======================
+
+[[RedeliveryPolicyMessageIdentifier]]
+=== Redelivery Policy Message Identifier
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Use Secure Hash a| Boolean | Whether to use a secure hash algorithm to identify a redelivered message |  |
+| Id Expression a| String | Defines one or more expressions to use to determine when a message has been redelivered. This property may only be set if useSecureHash is false. |  |
+|======================
+
+[[HttpResponseAttributes]]
+=== Http Response Attributes
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Status Code a| Number |  |  | x
+| Headers a| Object |  |  | x
+| Reason Phrase a| String |  |  | x
+|======================
+
+[[RepeatableInMemoryIterable]]
+=== Repeatable In Memory Iterable
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| Initial Buffer Size a| Number | This is the amount of instances that will be initially be allowed to be kept in memory in order to consume the stream and provide random access to it. If the stream contains more data than can fit into this buffer, then it will be expanded according to the bufferSizeIncrement attribute, with an upper limit of maxInMemorySize. Default value is 100 instances. |  |
+| Buffer Size Increment a| Number | This is by how much will the buffer size by expanded if it exceeds its initial size. Setting a value of zero or lower will mean that the buffer should not expand, meaning that a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised when the buffer gets full. Default value is 100 instances. |  |
+| Max Buffer Size a| Number | This is the maximum amount of memory that will be used. If more than that is used then a STREAM_MAXIMUM_SIZE_EXCEEDED error will be raised. A value lower or equal to zero means no limit. |  |
+|======================
+
+[[RepeatableFileStoreIterable]]
+=== Repeatable File Store Iterable
+
+[cols=".^20%,.^25%,.^30%,.^15%,.^10%", options="header"]
+|======================
+| Field | Type | Description | Default Value | Required
+| In Memory Objects a| Number | This is the maximum amount of instances that will be kept in memory. If more than that is required, then it will start to buffer the content on disk. |  |
+| Buffer Unit a| Enumeration, one of:
+
+** BYTE
+** KB
+** MB
+** GB | The unit in which maxInMemorySize is expressed |  |
+|======================
+
+
+
+== See Also
+
+* xref:release-notes::connector/google-sheets-connector-release-notes-mule-4.adoc[Google Sheets Connector Release Notes]
+* xref:connectors::introduction/introduction-to-anypoint-connectors.adoc[Introduction to Anypoint Connectors]
+* https://help.mulesoft.com[MuleSoft Help Center]
