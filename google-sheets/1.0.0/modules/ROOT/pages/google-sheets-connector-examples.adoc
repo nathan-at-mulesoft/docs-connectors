@@ -3,17 +3,17 @@
 
 Anypoint Connector for Google Sheets (Google Sheets Connector) provides two examples that enable you to see how to configure Google Sheets Connector using Anypoint Studio:
 
-* <<create-row,Create a New Row in a Spreadsheet>>
+* <<append-values,Append Spreadsheets Values>>
 
 == Prerequisites
 
 You must have:
 
 * Access to Google Sheets
-* Your google username and password
+* OAuth username and password
 
-[[create-row]]
-== Create a Row in a Spreadsheet (Studio Example)
+[[append-values]]
+== Append Spreadsheets Values (Studio Example)
 
 This example uses the *Append Spreadsheets Values* operation to create a row in a spreadsheet.
 
@@ -68,7 +68,7 @@ image::google-sheets-http-props.png[Listener configuration]
 . In the configuration panel of the component set parameters with your proper values (next values are examples):
 +
 * *Spreadsheet id*: `19y7nVZPQz3NQSTSGfCh06KXPIqGV2YXohTupmynJyZ5`
-* *range*: `Demo!A1`
+* *range*: `Sheet1!A1`
 +
 . Click *OK*.
 
@@ -114,7 +114,7 @@ image::google-sheets-operation-props.png[Configure the operation]
 }
 ----
 
-== Create a New Row in a Spreadsheet Example
+== Append Spreadsheets Values in a Spreadsheet Example
 
 Paste this code into the Studio XML editor to quickly load the flow for this example into your Mule app:
 

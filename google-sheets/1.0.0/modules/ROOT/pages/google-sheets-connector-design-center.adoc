@@ -11,28 +11,20 @@ To create an app in Flow Designer:
 For information about connector field values, see
 the xref:google-sheets-reference.adoc[Google Sheets Connector Reference].
 
-== Configure the Trigger
+== Configure the Input Source Trigger
 
-Google Sheets Connector provides the *On New Row*, *On New Or Updated Row* and *On New Spreadsheet* triggers, which starts your app when a row is inserted, updated or new spreadsheet is created respectively. Alternatively, you can use:
+A trigger starts your app. You can use the HTTP Listener operation to start your app from a browser or the `Scheduler` to start your app on a timed schedule. Anypoint Connector for SNS (Amazon SNS Connector) does not provide trigger operations.
 
-* *HTTP Listener* to start your app from a browser
-or with a command such as `curl`.
-* *Scheduler* to start your app on a timed schedule
-
-To configure the trigger:
-
-. In Design Center, click *Create new*.
-. Click *Create new application*.
+. In Design Center, click *Create*.
+. Click *Create new application* to open Flow Designer.
 . Specify a value for *Project name*, and click *Create*.
-. Click *Go straight to canvas* to exit from *Let's get started*.
-. In the middle of the canvas, click the empty trigger card to expand it.
-. Configure the trigger for the connector.
-+
-To use the *On New Row* trigger, enter `google` in the search field and select *Google Sheets Connector*.
-. Click *Add Connection*.
-. Complete the required fields.
-. Click *Test* to test the connection.
-. Click *Save*.
+. Click *Go straight to canvas* to exit *Let's get started*.
+. Click on the trigger card.
+. If you are using the HTTP Listener operation as a trigger, search for and select *HTTP Listener*.
+. In the HTTP Listener's *General* tab, enter the path-absolute-URL that defines the resource location.
+. Click off the trigger card.
+
+Design Center automatically saves all changes.
 
 == Configure the Target Component
 

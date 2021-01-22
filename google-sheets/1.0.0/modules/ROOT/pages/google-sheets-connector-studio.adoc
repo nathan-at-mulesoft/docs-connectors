@@ -43,39 +43,10 @@ A source (listener) initiates a flow when a specified condition is met.
 
 You can configure one of these sources to use with Google Sheets Connector:
 
-* *On New Row Listener* +
-Start your app when the row is added into a spreadsheet.
-* *On New or Updated Row Listener* +
-Start your app when the row is added into or updated in a spreadsheet.
-* *On New Spreadsheet Listener* +
-Start your app when the new spreadsheet is created on your Google Drive.
 * *HTTP Listener* +
 Initiates a flow each time it receives a request on the configured host and port
 * *Scheduler* +
 Initiates a flow when a time-based condition is met
-
-To configure the *On New Row Listener* source:
-
-. In the *Mule Palette* view, select *Google Sheets > On New Row Listener*.
-. Drag *On New Row Listener* source to the Studio canvas.
-. On the *On New Row Listener* configuration screen, optionally change the value of the *Display Name* field.
-. Enter the required information for the following fields:
-+
-[%header,cols="30s,70a"]
-|===
-|Studio Field |Description
-|Connector configuration |Global Element Properties configuration name
-|Scheduling Strategy a|Tells the source how it can poll the data. This field accepts two options:
-
-* *Fixed Frequency* +
-Polls for data at a specified number of milliseconds, seconds, minutes, hours, or days. The default is 1000 milliseconds.
-* *Cron* +
-Accepts an expression that polls for data based on a filter, such as every Monday in a month at a given time. See xref:mule-runtime::scheduler-concept.adoc#cron-expressions[Cron Expressions] for examples.
-|Spreadsheet ID|Id of the spreadsheet to check for a new row in
-|Worksheet Name|Name of the sheet to check for a new row in
-|===
-+
-. Click the plus sign (*+*) next to the *Connector configuration* field to <<configure-global-element,configure a global element>> that can be used by all instances of the *On New Row Listener* listener in the app.
 
 
 [[add-connector-operation]]
