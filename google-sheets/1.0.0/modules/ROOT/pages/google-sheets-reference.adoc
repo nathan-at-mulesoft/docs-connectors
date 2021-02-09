@@ -101,11 +101,15 @@ Uses OAuth dance for authenticating the connection.
 ==== Associated Operations
 * <<CreateSpreadsheetsValuesRangeappendBySpreadsheetId>> {nbsp}
 * <<GetFiles>> {nbsp}
-* <<GetSpreadsheetsSpreadsheetIdfieldssheetsproperties>> {nbsp}
+* <<GetSpreadsheetsBySpreadsheetId>> {nbsp}
 * <<GetSpreadsheetsValuesBySpreadsheetIdRange>> {nbsp}
 * <<Unauthorize>> {nbsp}
 * <<UpdateSpreadsheetsValuesBySpreadsheetIdRange>> {nbsp}
 
+==== Associated Sources
+* <<NewRowListener>> {nbsp}
+* <<NewSpreadsheetListener>> {nbsp}
+* <<UpdatedRowListener>> {nbsp}
 
 == Operations
 
@@ -123,8 +127,8 @@ Append Spreadsheets Values This operation makes an HTTP POST request to the /spr
 |===
 | Name | Type | Description | Default Value | Required
 | Configuration | String | The name of the configuration to use. | | *x*{nbsp}
-| Spreadsheet Id a| String |  Spreadsheet Id |  | *x*{nbsp}
-| range a| String |  range |  | *x*{nbsp}
+| Spreadsheet a| String |  Spreadsheet Id |  | *x*{nbsp}
+| Range a| String |  range |  | *x*{nbsp}
 | Value Input Option a| Enumeration, one of:
 
 ** USER_ENTERED
@@ -205,6 +209,7 @@ The endpoint lists user's drive files. This operation makes an HTTP GET request 
 | Page Size a| String |  Page Size |  100 | {nbsp}
 | Query a| String |  Query |  | {nbsp}
 | Fields a| String |  Fields |  | {nbsp}
+| Order By a| String |  Order By |  | {nbsp}
 | Output Mime Type a| String |  The mime type of the payload that this operation outputs. |  | {nbsp}
 | Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
 | Streaming Strategy a| * <<RepeatableInMemoryIterable>>
@@ -260,12 +265,12 @@ The endpoint lists user's drive files. This operation makes an HTTP GET request 
 * GOOGLE-SHEETS:UNSUPPORTED_MEDIA_TYPE {nbsp}
 
 
-[[GetSpreadsheetsSpreadsheetIdfieldssheetsproperties]]
+[[GetSpreadsheetsBySpreadsheetId]]
 === Get Spreadsheet Properties
-`<google-sheets:get-spreadsheets-spreadsheet-idfieldssheetsproperties>`
+`<google-sheets:get-spreadsheets-by-spreadsheet-id>`
 
 
-Get Spreadsheet Properties This operation makes an HTTP GET request to the /spreadsheets/{spreadsheetId}?&amp;fields=sheets.properties endpoint
+Get Spreadsheet Properties This operation makes an HTTP GET request to the /spreadsheets/{spreadsheetId} endpoint
 
 
 ==== Parameters
@@ -275,6 +280,7 @@ Get Spreadsheet Properties This operation makes an HTTP GET request to the /spre
 | Name | Type | Description | Default Value | Required
 | Configuration | String | The name of the configuration to use. | | *x*{nbsp}
 | Spreadsheet Id a| String |  Spreadsheet Id |  | *x*{nbsp}
+| Fields a| String |  Fields |  | {nbsp}
 | Content Type a| String |  Content Type |  application/json | {nbsp}
 | Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
 | Streaming Strategy a| * <<RepeatableInMemoryStream>>
@@ -346,8 +352,8 @@ Get Spreadsheets Values This operation makes an HTTP GET request to the /spreads
 |===
 | Name | Type | Description | Default Value | Required
 | Configuration | String | The name of the configuration to use. | | *x*{nbsp}
-| Spreadsheet Id a| String |  Spreadsheet Id |  | *x*{nbsp}
-| range a| String |  range |  | *x*{nbsp}
+| Spreadsheet a| String |  Spreadsheet Id |  | *x*{nbsp}
+| Range a| String |  range |  | *x*{nbsp}
 | Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
 | Streaming Strategy a| * <<RepeatableInMemoryStream>>
 * <<RepeatableFileStoreStream>>
@@ -443,8 +449,8 @@ Update Spreadsheets Values This operation makes an HTTP PUT request to the /spre
 |===
 | Name | Type | Description | Default Value | Required
 | Configuration | String | The name of the configuration to use. | | *x*{nbsp}
-| Spreadsheet Id a| String |  Spreadsheet Id |  | *x*{nbsp}
-| range a| String |  range |  | *x*{nbsp}
+| Spreadsheet a| String |  Spreadsheet Id |  | *x*{nbsp}
+| Range a| String |  range |  | *x*{nbsp}
 | Value Input Option a| Enumeration, one of:
 
 ** USER_ENTERED
@@ -507,6 +513,141 @@ Update Spreadsheets Values This operation makes an HTTP PUT request to the /spre
 * GOOGLE-SHEETS:UNAUTHORIZED {nbsp}
 * GOOGLE-SHEETS:UNSUPPORTED_MEDIA_TYPE {nbsp}
 
+== Sources
+
+[[NewRowListener]]
+=== On New Row Listener
+`<google-sheets:new-row-listener>`
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Response timeout a| Number |  |  30 | {nbsp}
+| Response timeout time unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  |  SECONDS | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Primary Node Only a| Boolean |  Whether this source should only be executed on the primary node when runnning in Cluster |  | {nbsp}
+| Scheduling Strategy a| scheduling-strategy |  Configures the scheduler that triggers the polling |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Redelivery Policy a| <<RedeliveryPolicy>> |  Defines a policy for processing the redelivery of the same message |  | {nbsp}
+| Spreadsheet a| String |  The ID of the spreadsheet. |  | *x*{nbsp}
+| Worksheet Name a| String |  The name of the worksheet. |  | *x*{nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+
+[%autowidth.spread]
+|===
+| *Type* a| Any
+|===
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+
+
+[[NewSpreadsheetListener]]
+=== On New Spreadsheet Listener
+`<google-sheets:new-spreadsheet-listener>`
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Response timeout a| Number |  |  30 | {nbsp}
+| Response timeout time unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  |  SECONDS | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Primary Node Only a| Boolean |  Whether this source should only be executed on the primary node when runnning in Cluster |  | {nbsp}
+| Scheduling Strategy a| scheduling-strategy |  Configures the scheduler that triggers the polling |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Redelivery Policy a| <<RedeliveryPolicy>> |  Defines a policy for processing the redelivery of the same message |  | {nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+
+[%autowidth.spread]
+|===
+| *Type* a| Any
+|===
+
+==== For Configurations
+
+* <<Config>> {nbsp}
+
+
+
+[[UpdatedRowListener]]
+=== On Updated Row Listener
+`<google-sheets:updated-row-listener>`
+
+
+==== Parameters
+
+[%header%autowidth.spread]
+|===
+| Name | Type | Description | Default Value | Required
+| Configuration | String | The name of the configuration to use. | | *x*{nbsp}
+| Response timeout a| Number |  |  30 | {nbsp}
+| Response timeout time unit a| Enumeration, one of:
+
+** NANOSECONDS
+** MICROSECONDS
+** MILLISECONDS
+** SECONDS
+** MINUTES
+** HOURS
+** DAYS |  |  SECONDS | {nbsp}
+| Include Newly Added Rows a| Boolean |  Indicates whether to include also newly added rows in the output. |  false | {nbsp}
+| Config Ref a| ConfigurationProvider |  The name of the configuration to be used to execute this component |  | *x*{nbsp}
+| Primary Node Only a| Boolean |  Whether this source should only be executed on the primary node when runnning in Cluster |  | {nbsp}
+| Scheduling Strategy a| scheduling-strategy |  Configures the scheduler that triggers the polling |  | *x*{nbsp}
+| Streaming Strategy a| * <<RepeatableInMemoryStream>>
+* <<RepeatableFileStoreStream>>
+* non-repeatable-stream |  Configure if repeatable streams should be used and their behaviour |  | {nbsp}
+| Redelivery Policy a| <<RedeliveryPolicy>> |  Defines a policy for processing the redelivery of the same message |  | {nbsp}
+| Spreadsheet a| String |  The ID of the spreadsheet. |  | *x*{nbsp}
+| Worksheet Name a| String |  The name of the worksheet. |  | *x*{nbsp}
+| Reconnection Strategy a| * <<Reconnect>>
+* <<ReconnectForever>> |  A retry strategy in case of connectivity errors |  | {nbsp}
+|===
+
+==== Output
+
+[%autowidth.spread]
+|===
+| *Type* a| Any
+|===
 
 [[SetExpressionLanguage]]
 === Set Expression Language
