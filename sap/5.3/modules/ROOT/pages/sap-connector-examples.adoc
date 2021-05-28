@@ -1,22 +1,27 @@
 = SAP Connector 5.3 Examples - Mule 4
 :page-aliases: connectors::sap/sap-connector-examples.adoc
 
+
+== Prerequisites
+
+* xref:sap-connector-studio.adoc#install-sap-libraries[Install the SAP Libraries]
+
 == Establish an SAP Connection
 
-Create a Mule app that establishes a connection to SAP and receives a function using the SAP connector's *Function source* operation, which returns the export parameter to SAP.
+Create a Mule app that establishes a connection to SAP and receives a function using the SAP connector's *Function listener* operation, which returns the export parameter to SAP.
 
-. In Anypoint Studio, create a new Mule project.
-. Click the Exchange icon *(X)* in the upper-left of the Studio task bar.
-. In Exchange, click *Login* and supply your Anypoint Platform username and password.
-. In Exchange, select *Connectors* as the type, and search for "SAP Connector".
-. Select the SAP Connector for Mule 4 tile, and click *Add to project*.
-. Drag the SAP *Function source* operation to the source area of the canvas at the start of a flow.
+. In the *Mule Palette* view, click *(X) Search in Exchange*.
+. In the *Add Dependencies to Project* window, type `sap` in the search field.
+. Click *SP Connector* in *Available modules*.
+. Click *Add*.
+. Click *Finish*.
+. Drag the SAP *Function listener* operation to the source area of the canvas at the start of a flow.
 . Create a new *SAP Inbound* global element configuration and specify the environment values.
 . Add a *Transform Message* component to the flow and specify the details based on the metadata:
 +
-image::sap-function-return-response.png[]
+image::sap-function-return-response.png[Output payload of the return response]
 +
-The flow now contains *Function source* in the canvas source area and the *Transform Message*, as shown in the following image:
+The flow now contains *Function listener* in the canvas source area and the *Transform Message*, as shown in the following image:
 +
 image::sap-flow-response.png[]
 +
@@ -72,8 +77,8 @@ read('<?xml version="1.0"?>
 +
 . Add a *Logger* directly after the SAP endpoint. +
 When you run your app, *Logger* displays messages in the Anypoint Studio console that enable you to see the connector payload in the logs.
-. Click *File* > *Save* to save your app.
-. Click *Run* > *Run as* > *Mule Application* to run the app. +
+. Click *File > Save* to save your app.
+. Click *Run > Run as > Mule Application* to run the app. +
 Anypoint Studio provides a web server you can use to test the app from a browser.
 . From a web browser, test the application by entering an employee's internal ID, first name, and last name in the form of the following query parameters:
 +
@@ -90,9 +95,9 @@ This example acts like an RFC server and registers itself at an SAP gateway. It 
 
 . In Anypoint Studio, create a new Mule project.
 . Add the SAP connector to your project from Exchange.
-. Drag the SAP *Document source* operation to the start of a flow in the source area of the canvas.
+. Drag the SAP *Document listener* operation to the start of a flow in the source area of the canvas.
 . Create a new *SAP Inbound* global element configuration and specify the environment values.
-. Add a *Logger* right after the *Document source*. +
+. Add a *Logger* right after the *Document listener*. +
 When you run your app, *Logger* displays messages in the Anypoint Studio console that enables you to see the connector payload in the logs.
 . In a new Mule flow, drag the *HTTP Listener* operation to the canvas and use the default values.
 . Drag the *HTTP Request* operation to the canvas and set *Path* to `/triggerIDoc`. +
@@ -127,15 +132,15 @@ tables: {
 }
 ----
 +
-. Drag the SAP *Synchronous remote function call* operation to the source area of the canvas. +
+. Drag the SAP *Synchronous Remote Function Call* operation to the source area of the canvas. +
 This operation triggers the IDocs that are requested to be sent to the SAP IDoc source.
 . Enter the key value. +
 If the key value is correct, the payload of the function in *Transform Message* appears:
 +
 image::sap-connector-remote-function-call-key.png[]
 +
-. Click *File* > *Save* to save your app.
-. Click *Run* > *Run as* > *Mule Application* to run the app. +
+. Click *File > Save* to save your app.
+. Click *Run > Run as > Mule Application* to run the app. +
 Anypoint Studio provides a web server you can use to test the app from a browser.
 . From a web browser, test the application by entering "http://localhost:8081/triggerIDoc".
 

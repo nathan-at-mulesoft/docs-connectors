@@ -30,15 +30,15 @@ Adding a connector to a Mule project in Studio does not make that connector avai
 . Choose an operation. +
 If you want your app to start when an object is sent from SAP, choose either of the following operations and drag the operation to the *Source* area of the Studio canvas.
 +
-* *Document source* listens for a change to an IDoc. When an IDoc changes, your app executes
-* *Function source* listens for a change to an SAP function module. When the targeted function module changes, your app executes.
+* *Document listener* listens for a change to an IDoc. When an IDoc changes, your app executes
+* *Function listener* listens for a change to an SAP function module. When the targeted function module changes, your app executes.
 +
-See the xref:sap-connector-reference.adoc[SAP Connector Reference] for field values.
-If you chose the *Document source* or *Function source* operation, proceed to the next section to install the SAP libraries.
+If you chose the *Document listener* or *Function listener* operation, proceed to the next section to install the SAP libraries.
 . Alternatively, you can configure an input source for this connector such as an *HTTP Listener*, or *Scheduler*, and drag the operation to the Studio canvas. +
 An HTTP Listener enables you to start your app from a browser. A Scheduler starts your app at a specific time.
 . Install the SAP libraries.
 
+[[install-sap-libraries]]
 == Install SAP Libraries
 
 To use SAP libraries in your Mule project, you must first download the libraries to your
