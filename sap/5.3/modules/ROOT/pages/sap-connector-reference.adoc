@@ -18,16 +18,12 @@ NOTE: Starting with version 5.0, SAP Connector also supports connecting to an on
 * SAP Connector was not tested using a message server configuration connected to more than one application server. Therefore, this feature is not currently supported.
 
 
-== Configurations
----
-[[sap]]
-=== Default Configuration
-
+== Default Configuration
 
 Default configuration for SAP extension outbound elements.
 
-
 ==== Parameters
+
 [%header,cols="20s,20a,35a,20a,5a"]
 |===
 | Name | Type | Description | Default Value | Required
@@ -48,13 +44,15 @@ Default configuration for SAP extension outbound elements.
 |  `false` |
 |===
 
-==== Connection Types
+== Connection Types
+
 [[sap_certificate]]
-===== Certificate
+=== Certificate
 
 Connection provider that relies on an X509 certificate to authenticate the user.
 
-====== Parameters
+==== Parameters
+
 [%header,cols="20s,20a,35a,20a,5a"]
 |===
 | Name | Type | Description | Default Value | Required
@@ -76,13 +74,14 @@ Connection provider that relies on an X509 certificate to authenticate the user.
 ** LEVEL_3 |  Enable/disable RFC trace on the server. |  |
 | Reconnection a| <<Reconnection>> |  When an application is deployed, a connectivity test is performed on all connectors. If set to `true`, deployment fails if the test doesn't pass after exhausting the associated reconnection strategy. |  |
 |===
-[[sap_simple-connection-provider]]
-===== Simple Connection Provider
 
+[[sap_simple-connection-provider]]
+=== Simple Connection Provider
 
 Connection provider that connects using a username and password.
 
-====== Parameters
+==== Parameters
+
 [%header,cols="20s,20a,35a,20a,5a"]
 |===
 | Name | Type | Description | Default Value | Required

@@ -1,6 +1,7 @@
 = SAP Connector 5.3 Examples - Mule 4
 :page-aliases: connectors::sap/sap-connector-examples.adoc
 
+Create a Mule app that establishes a connection to SAP and receives a function using the SAP connector's *Function listener* operation, which then returns the export parameter to SAP.
 
 == Prerequisites
 
@@ -8,22 +9,21 @@
 
 == Establish an SAP Connection
 
-Create a Mule app that establishes a connection to SAP and receives a function using the SAP connector's *Function listener* operation, which returns the export parameter to SAP.
+Create and configure a global element to establish a connection to SAP. 
 
 . In the *Mule Palette* view, click *(X) Search in Exchange*.
 . In the *Add Dependencies to Project* window, type `sap` in the search field.
-. Click *SP Connector* in *Available modules*.
+. Click *SAP Connector* in *Available modules*.
 . Click *Add*.
 . Click *Finish*.
 . Drag the SAP *Function listener* operation to the source area of the canvas at the start of a flow.
-. Create a new *SAP Inbound* global element configuration and specify the environment values.
+. In *Basic Settings*, click *+* to the right of *Connector configuration* to create a new SAP inbound global element configuration and specify the environment values.
+. In the *General* tab, enter the required parameters (supplied by your SAP administrator) for defining an SAP connection.
 . Add a *Transform Message* component to the flow and specify the details based on the metadata:
 +
 image::sap-function-return-response.png[Output payload of the return response]
 +
-The flow now contains *Function listener* in the canvas source area and the *Transform Message*, as shown in the following image:
-+
-image::sap-flow-response.png[]
+The flow now contains the *Function listener* operation and *Transform Message* component in the canvas source area.
 +
 The SAP Design Studio displays feedback about the received object and its response:
 +
@@ -31,17 +31,17 @@ image::sap-result-sap-gui.png[]
 
 == Send an IDoc to SAP
 
-In this example, you create a Mule app to send an IDoc to SAP:
+Create a Mule app to send an IDoc to SAP:
 
 . In Anypoint Studio, create a new Mule project.
 . Drag the *HTTP Listener* operation to the canvas and use the default values.
 . Drag the *HTTP Request* operation to the canvas and set *Path* to `/sendIDoc`. +
-Use the same HTTP configuration as used for the *HTTP Listener* operation.
+Use the same HTTP configuration that is used for the HTTP *Listener* operation.
 . Create a new SAP outbound global element configuration and specify the environment values.
 . Click *Test Connection* to confirm that Mule runtime engine can connect with the SAP instance.
 . If the connection is successful, save the configuration. +
 Otherwise, review and correct any invalid parameters, and test again.
-. Select the SAP Connector and add the *Send IDoc* operation next to the HTTP operation.
+. Select the *Send IDoc* operation next to the HTTP *Listener* operation.
 . Configure the operation with the following values:
 +
 [%header,cols="40s,60a"]

@@ -34,7 +34,7 @@ If you want your app to start when an object is sent from SAP, choose either of 
 * *Function listener* listens for a change to an SAP function module. When the targeted function module changes, your app executes.
 +
 If you chose the *Document listener* or *Function listener* operation, proceed to the next section to install the SAP libraries.
-. Alternatively, you can configure an input source for this connector such as an *HTTP Listener*, or *Scheduler*, and drag the operation to the Studio canvas. +
+. Alternatively, you can configure an input source for this connector such as an HTTP listener, or Scheduler, and drag the operation to the Studio canvas. +
 An HTTP Listener enables you to start your app from a browser. A Scheduler starts your app at a specific time.
 . Install the SAP libraries.
 
@@ -151,8 +151,8 @@ If you need more than one SAP Connector instance in your Mule project, you can c
 
 To create a configuration for SAP Connector, complete the following steps:
 
-. Go to *Global Elements* section and click *Create*.
-. Select either *SAP Inbound* or *SAP Outbound* in the *Connector Configuration* section.
+. Click *Global Elements* at the base of the Mule flow canvas, and click *Create*.
+. In the *Connector Configuration*, select *SAP Config*.
 . In the *General* tab pane, enter the required parameters for defining an SAP connection, which your SAP system administrator can supply.
 
 The SAP global element properties allow you to define connection properties as well as to add the required SAP dependencies to your project.
@@ -168,14 +168,14 @@ The minimum required attributes to define are:
 |Application Server Host | SAP endpoint
 |Username | Username of an authorized SAP user
 |Password | Password credential of an authorized SAP user
-|System Number | System number used to connect to the SAP system
-|Client| The SAP client ID (usually a number) used to connect to the SAP system
-|Login Language | The language to use for the SAP connection. For example, `EN` for English.
+|SAP System Number | System number used to connect to the SAP system
+|SAP Client ID| The SAP client ID (usually a number) used to connect to the SAP system
+|Login Language | In the *Advanced* tab, specify the language to use for the SAP connection. `EN` for English is the default.
 |===
 
 As a best practice, use property placeholder syntax to load the credentials in a more simple and reusable way.
 
-Click *Test Connection* to verify that the connection to the SAP instance is correct. If the credentials are correct you should see the `Test Connection Successful` message.
+Click *Test Connection* to verify that the connection to the SAP instance is correct. If the credentials are correct, you see the `Test Connection Successful` message.
 
 [[view-app-log]]
 == View the App Log
