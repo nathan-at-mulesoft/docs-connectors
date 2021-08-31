@@ -1,5 +1,5 @@
 name: confluent-schema-registry-connector
-version: '1.0'
+version: 'latest'
 display_version: 1.0 (Mule 4)
 title: Confluent Schema Registry Connector
 nav:
