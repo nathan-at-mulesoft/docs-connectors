@@ -1,5 +1,5 @@
 name: amazon-ec2-connector
-version: '2.5'
+version: 'latest'
 display_version: 2.5 (Mule 4)
 title: Amazon EC2 Connector
 nav:
