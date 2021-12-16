@@ -1,0 +1,132 @@
+= Microsoft Dynamics 365 - Business Central Connector - Get Started - Mule 4
+
+Support Category: https://www.mulesoft.com/legal/versioning-back-support-policy#anypoint-connectors[Select]
+
+Microsoft Dynamics 365 Connector v2.3.1
+
+Anypoint Connector for Microsoft Dynamics 365 - Business Central (Microsoft Dynamics 365 - Business Central Connector) enables integration with the Microsoft Dynamics 365 Business Central API.
+
+This connector enables you to perform operations to:
+
+* Create, update, and delete entities
+* Retrieve a single entity or query multiple entities
+* Associate and disassociate entities
+* React to changes in Sales Orders, Items and Customers
+
+Release Notes: xref:release-notes::connector/microsoft-dynamics-365-business-central-connector-release-notes-mule-4.adoc[Microsoft Dynamics 365 - Business Central Connector Release Notes] +
+Exchange: https://www.mulesoft.com/exchange/com.mulesoft.connectors/mule4-microsoft-dynamics-365-business-central/[Microsoft Dynamics 365 - Business Central Connector]
+
+
+== Audience
+
+* Starting user:
+To create your Mule app,
+see xref:microsoft-dynamics-365-business-central-connector-design-center.adoc[Design Center Configuration]
+or xref:microsoft-dynamics-365-business-central-connector-studio.adoc[Studio Configuration]. The
+xref:microsoft-dynamics-365-business-central-connector-examples.adoc[Examples] topic provides one or more use cases for using the connector.
+* Power user: Read the xref:microsoft-dynamics-365-business-central-connector-xml-maven.adoc[XML and Maven Support] and xref:microsoft-dynamics-365-business-central-connector-examples.adoc[Examples] topics.
+
+== Prerequisites
+
+Before creating an app, you must have access to the Microsoft Dynamics 365 Bussines Central target resource and
+Anypoint Platform. You also must understand how to create a Mule app using
+Design Center or Anypoint Studio.
+
+Obtain a client ID and secret for your app by logging in to the Microsoft Azure Active Directory portal at portal.azure.com.
+Alternatively you can login to your Business Central instance and generate your Web Service Access Key under your user card.
+
+Before starting:
+
+You need access to a Microsoft Dynamics 365 instance for which Azure Active Directory is the Identity Provider that provides access to an application.
+
+== Authentication Types
+
+Microsoft Dynamics 365 Connector supports:
+
+* OAuth by connection to servers that handle authorization and token access
+* Basic Auth access using your Username and Password (Web Service Access Key)
+
+== Input Sources (Triggers)
+
+Anypoint Connector for Microsoft Dynamics 365 - Business Central enables you to start an app using these input sources:
+
+* On New or Updated SalesOrder: Trigger your app when a new SalesOrder is created or an existing one is updated.
+* On New or Updated Item: Trigger your app when a new Item is created or an existing one is updated.
+* On New or Updated Customer: Trigger your app when a new Customer is created or an existing one is updated.
+
+Alternatively, you can use HTTP to listen for inputs or use a scheduler to choose when to run your app.
+
+== Trigger Required Fields
+
+All triggers require the same fields to be filled:
+
+
+* Connection
++
+OAuth connection types. Can be `Connection` to connect via URLs to servers that handle authorization and token access, or `OAuth Username Password` to connect by specifying a user name and password.
++
+* Company ID
++
+The Identifier of the company you're managing using your Mule App.
+
+=== OAuth Connection Required Fields
+
+* Base URL +
+Base URL for accessing the Microsoft Dynamics 365 - Business Central instance
+* Consumer Key +
+OAuth consumer key registered with the service provider
+* Consumer Secret +
+OAuth consumer secret registered with the service provider
+* Authorization URL +
+The URL to the /authorize endpoint. This will depend on your Azure AD and Tenant configuration.
+* Access Token URL +
+The URL to the /token endpoint. This will depend on your Azure AD and Tenant configuration.
+* Listener Config +
+A reference to the listener that catches the access token callback endpoint
+* Callback Path +
+The path of the access token callback endpoint
+* Authorize Path +
+The path of the local HTTP endpoint that triggers the OAuth dance
+
+=== Basic Auth Username and Password Required Fields
+
+* Base URL +
+Base URL for accessing the Microsoft Dynamics 365 - Business Central instance
+* Username +
+User name used to initialize the session
+* Password +
+Password used to authenticate against the instance.
+
+== Terminology
+
+Actions::
+Operations that allow side effects, such as data modification, cannot be further composed to avoid non-deterministic behavior.
+Complex types::
+Keyless  structured types consisting of a set of properties. Complex types are commonly used as property values in model entities, or as parameters or return values for operations.
+Entities::
+Instances of entity types, for example, a sales order or an item.
+Enumeration types or enum types::
+Primitive types whose values are constants with underlying integer values.
+Functions::
+Operations that do not have side effects and may support further composition, for example, with additional filter operations, functions, or an action.
+
+== Common Use Cases
+
+The following use cases are described in the xref:microsoft-dynamics-365-business-central-connector-examples.adoc[Examples] topic.
+
+* List Entities
+* Get Entity details
+* Create new Entity
+* Updated existing Entities
+* Delete Entities
+* Monitor and Keep your sales orders, customer or item data in sync with other services.
+
+== Next Step
+
+After you have met the prerequisites and experimented with templates and examples, you are ready to create an app with
+xref:microsoft-dynamics-365-business-central-connector-design-center.adoc[Design Center] or xref:microsoft-dynamics-365-business-central-connector-studio.adoc[Anypoint Studio].
+
+== See Also
+
+* xref:connectors::introduction/introduction-to-anypoint-connectors.adoc[Introduction to Anypoint Connectors]
+* https://help.mulesoft.com[MuleSoft Help Center]

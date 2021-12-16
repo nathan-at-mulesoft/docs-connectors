@@ -1,0 +1,208 @@
+= Microsoft Dynamics 365 - Business Central - Examples - Mule 4
+
+You can better understand how to use Microsoft Dynamics 365 - Business Central Connector if you build and run a demonstration project.
+
+== Prerequisites
+
+To build and run this demo project, you need:
+
+* Anypoint Studio with Mule 4.0 and later.
+* Microsoft Dynamics 365 - Business Central Connector v1.0.0 and later.
+* Microsoft Dynamics 365 - Business Central instance
+* Either OAuth2 credentials from Azure AD or Business Central `Web Service Access Key`
+
+=== Mule Flows Overview
+
+The example that follows contains the following `<flow>` elements:
+
+* `LIST_ENTITIES` +
+List all currently existing Items in your Company.+
+[GET] The HTTP endpoint listens to the following URL: `+http://localhost:8081/items+`
++
+* `GET_ENTITY` +
+Gets the details of a single Item by its ID, you can find an existing ID in the LIST_ENTITIES example or you could create a new Item through the CREATE_ENTITY example first. +
+[GET] The HTTP endpoint listens to the following URL: `+http://localhost:8081/item?id={ID_HERE}+`
++
+* `CREATE_ENTITY` +
+Creates a new Item using the payload you send in your POST body +
+[POST] HTTP endpoint listens to the following URL: `+http://localhost:8081/item/create+` =
+Request example: `{"displayName": "My New Item"}`
++
+* `UPDATE_ENTITY` +
+Updates the details of an existing Item using it's ID +
+[POST] The HTTP endpoint listens to the following URL: `+http://localhost:8081/item/update?id={ID_HERE}+` +
+Request example: `{"displayName": "New Item Name"}`
++
+* `DELETE_ENTITY` +
+Deletes an Item using it's ID +
+[GET] The HTTP endpoint listens to the following URL: `+http://localhost:8081/item/delete?id={ID_HERE}+` +
++
+* `MONITOR_NEW_ITEMS` +
+Triggers a flow when a new item is added or an existing item is updated +
+On first start of the demo, you will notice that all existing Items will be detected first. After that only new and updated items will trigger the flow.
+If you want to ignore previous items on first launch
+you can change the "Since" parameter to only react to items newer than the provided time and date.
+
+Browse to `+http://localhost:8081+` to test the flows, or you can POST JSONs using a tool like curl, or any other tool (Chrome/Mozilla Firefox extensions) that lets you POST a body when calling the URL.
+
+=== Test the Flows
+
+. Specify your OAuth2 credentials for OAuth2 Username Password Config in /src/main/resources/mule-app.properties:
++
+* `config.baseurl`
+The Base URL of your Business Central instance
+* `config.username`
+Username to initialize the session
+* `config.password`
+Password used to authenticate the user. This is your Web Service Access Key obtained from the Business Central User card.
+* `config.companyId`
+The ID of your company. How you can obtain your Company ID is described in the "Obtaining your Company ID" section.
++
+. Specify a DataSense connection timeout over 200 seconds, because the connector makes several requests to provide DataSense information.
+. Run the project in Studio.
+. Type `localhost:8081` in your browser to access the selection menu of the demo.
+. Optionally configure Connection Timeout and Read Timeout.
+Connection Timeout is the timeout in making the initial connection with the server.
+Read Timeout is the timeout on waiting to read data from the server.
+
+=== Obtaining your Company ID
+==== Method 1
+The simples way to obtain your company ID when building your flows is by using the automatic Metadata resolution that AnyPoint Studio provides.
+This only currently works with a Basic Auth Connection using Username and Password. Once you have this connection configured, you can reload the metadata
+for any operation by clicking the reload arrows next to the CompanyId field and the dropdown will be populated with your companies:
+
+image::dyn365bc-company-id-dropdown.png[Company ID dropdown preview]
+
+==== Method 2
+When this isn't an option for you, you can find your Company ID using Business Central directly.
+
+To find your CompanyID login to your Business Central account and navigate to the "Companies" card and select the company you want to use.
+
+image::dyn365bc-company-id-flow-1.png[Getting Company ID step 1]
+
+Next press the Question Mark button in the top right corner and select "Help & Support" and under the Troubleshooting section click "Inspect pages and data".
+Now in the inspector, you can enter "Id" in the search field and the first result should contain your company ID.
+
+image::dyn365bc-company-id-flow-2.png[Getting Company ID step 2]
+
+=== Mule XML Flow
+
+One you have the mule-app.properties file filled in, you can copy and paste the following Mule configuration into your new project in AnyPoint Studio.
+
+[source, xml, linenums]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dynamics365-bc="http://www.mulesoft.org/schema/mule/dynamics365-bc" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/dynamics365-bc http://www.mulesoft.org/schema/mule/dynamics365-bc/current/mule-dynamics365-bc.xsd">
+    <configuration-properties doc:name="Configuration properties" file="mule-app.properties" />
+    <http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" >
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+    <dynamics365-bc:config name="Microsoft_Dynamics_365___Business_Central_Config" doc:name="Microsoft Dynamics 365 - Business Central Config" >
+        <dynamics365-bc:basic-connection username="${config.username}" password="${config.password}" baseUri="${config.baseurl}"/>
+    </dynamics365-bc:config>
+    <flow name="LIST_ENTITIES" >
+        <http:listener doc:name="/items" config-ref="HTTP_Listener_config" path="/items"/>
+        <dynamics365-bc:list-entities entity="items" doc:name="List Entities" config-ref="Microsoft_Dynamics_365___Business_Central_Config" companyId="${config.companyId}">
+            <dynamics365-bc:select-query-params >
+                <dynamics365-bc:select-query-param value="id" />
+				<dynamics365-bc:select-query-param value="displayName" />
+            </dynamics365-bc:select-query-params>
+        </dynamics365-bc:list-entities>
+        <set-payload value="#[output application/json --- payload.payload]" doc:name="Set Payload" />
+    </flow>
+    <flow name="GET_ENTITY" >
+        <http:listener doc:name="/item" config-ref="HTTP_Listener_config" path="/item" outputMimeType="application/json"/>
+        <dynamics365-bc:get-entity doc:name="Get Entity" config-ref="Microsoft_Dynamics_365___Business_Central_Config" companyId="afcc33fd-6be6-414e-87fb-eec9548042f3" entityId="#[attributes.queryParams.id]" entity="items"/>
+    </flow>
+    <flow name="CREATE_ENTITY" >
+        <http:listener doc:name=" /item/create" config-ref="HTTP_Listener_config" path="/item/create" allowedMethods="POST" outputMimeType="application/json"/>
+        <dynamics365-bc:create-entity entity="items" doc:name="Create Entity" config-ref="Microsoft_Dynamics_365___Business_Central_Config" companyId="${config.companyId}">
+            <dynamics365-bc:body ><![CDATA[#[payload]]]></dynamics365-bc:body>
+        </dynamics365-bc:create-entity>
+    </flow>
+    <flow name="UPDATE_ENTITY" >
+        <http:listener doc:name="/item/update" config-ref="HTTP_Listener_config" path="/item/update" allowedMethods="POST" outputMimeType="application/json"/>
+        <dynamics365-bc:get-entity entity="items" doc:name="Get Entity" config-ref="Microsoft_Dynamics_365___Business_Central_Config" companyId="${config.companyId}" entityId="#[attributes.queryParams.id]" target="entity">
+            <dynamics365-bc:select-query-params >
+                <dynamics365-bc:select-query-param value="id" />
+            </dynamics365-bc:select-query-params>
+        </dynamics365-bc:get-entity>
+        <dynamics365-bc:update-entity entity="items" doc:name="Update Entity" config-ref="Microsoft_Dynamics_365___Business_Central_Config" companyId="${config.companyId}" entityId="#[attributes.queryParams.id]" etag="#[vars.entity.'@odata.etag']">
+            <dynamics365-bc:body ><![CDATA[#[payload]]]></dynamics365-bc:body>
+        </dynamics365-bc:update-entity>
+    </flow>
+    <flow name="DELETE_ENTITY" >
+        <http:listener doc:name=" /item/delete" config-ref="HTTP_Listener_config" path="/item/delete"/>
+        <dynamics365-bc:delete-entity entity="items" doc:name="Delete Entity" config-ref="Microsoft_Dynamics_365___Business_Central_Config" companyId="${config.companyId}" entityId="#[attributes.queryParams.id]"/>
+        <set-payload value="Item deleted" doc:name="Set Payload" />
+    </flow>
+    <flow name="MONITOR_NEW_ITEMS" >
+        <dynamics365-bc:on-new-or-updated-item-listener doc:name="On New or Updated Item" config-ref="Microsoft_Dynamics_365___Business_Central_Config" companyId="${config.companyId}">
+            <scheduling-strategy >
+                <fixed-frequency />
+            </scheduling-strategy>
+        </dynamics365-bc:on-new-or-updated-item-listener>
+        <logger level="INFO" doc:name="Logger" message="Item was created or updated"/>
+    </flow>
+</mule>
+----
+
+The simplest demo to test is the LIST_ENTITIES demo. simply navigate to http://localhost:8081/items[http://localhost:8081/items] and if everything is working
+you should see something like the following output (yours may include more or less items):
+
+[source, json, linenums]
+----
+[
+  {
+    "@odata.etag": "W/\"JzQ0O2NmSkRxLytOQjhlWktxVTdLNjZvZ2l0ZU1wRnNTTmYybGllN3YvMWlQbDg9MTswMDsn\"",
+    "id": "566fc405-2f87-42a3-92fc-27100dc2f462",
+    "displayName": "Swivel Chair, yellow"
+  },
+  {
+    "@odata.etag": "W/\"JzQ0OzB4R1FQd3FVM29RREtsQ2xvM3Y1SDZQZzVlNXJwVzJ6Y2RCNXNJUHI5a289MTswMDsn\"",
+    "id": "483a0c1c-ee9a-41a3-b690-3b1abceb6e1e",
+    "displayName": "Ornamental Table, blue"
+  }
+]
+----
+
+You can now pick any of the IDs listed, and use it to test the GET_ENTITY demo.
+For example if we wanted to see the details of the "Swivel Chair, yellow" Item, which has the ID "566fc405-2f87-42a3-92fc-27100dc2f462" , we could
+now navigate to the URL http://localhost:8081/item?id=566fc405-2f87-42a3-92fc-27100dc2f462[http://localhost:8081/item?id=566fc405-2f87-42a3-92fc-27100dc2f462]
+You should see something similar to this output:
+[source, json, linenums]
+----
+{
+    "@odata.etag": "W/\"JzQ0O2NmSkRxLytOQjhlWktxVTdLNjZvZ2l0ZU1wRnNTTmYybGllN3YvMWlQbDg9MTswMDsn\"",
+    "id": "566fc405-2f87-42a3-92fc-27100dc2f462",
+    "number": "Item-0000",
+    "displayName": "Swivel Chair, yellow",
+    "type": "Inventory",
+    "itemCategoryId": "00000000-0000-0000-0000-000000000000",
+    "itemCategoryCode": "CHAIR",
+    "blocked": false,
+    "inventory": 22,
+    "unitPrice": 50,
+    "priceIncludesTax": false,
+    "unitCost": 40,
+    "taxGroupId": "00000000-0000-0000-0000-000000000000",
+    "taxGroupCode": "FURNITURE",
+    "baseUnitOfMeasureId": "00000000-0000-0000-0000-000000000000",
+    "baseUnitOfMeasureCode": "PCS",
+    "generalProductPostingGroupId": "00000000-0000-0000-0000-000000000000",
+    "generalProductPostingGroupCode": "RETAIL",
+    "inventoryPostingGroupId": "00000000-0000-0000-0000-000000000000",
+    "inventoryPostingGroupCode": "RESALE",
+    "lastModifiedDateTime": "2021-15-13T08:30:35.000Z"
+}
+----
+
+
+== See Also
+
+https://help.mulesoft.com[MuleSoft Help Center]
