@@ -172,7 +172,7 @@ In the *Configuration XML* editor, the `ftps=mode` and `ftps-implicit-mode` conf
 [[configure-tls]]
 == Configure TLS with Keystores and Truststores
 
-You can use Transport Layer Security (TLS) and configure FTPS by providing a key store with your certificate. You can also enable 2-way authentication by providing a trust store. For more information about TLS configuration, refer to the  xref:mule-runtime::tls-configuration.adoc[configure TLS with Keystores and Truststores] documentation.
+You can use Transport Layer Security (TLS) and configure FTPS by providing a key store with your certificate. You can also enable 2-way authentication by providing a truststore. For more information about TLS configuration, refer to the  xref:mule-runtime::tls-configuration.adoc[configure TLS with Keystores and Truststores] documentation.
 
 [[configure-java]]
 == Configure Java JDK for Session Reuse
